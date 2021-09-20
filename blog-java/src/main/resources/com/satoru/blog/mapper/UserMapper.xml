@@ -1,0 +1,135 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.satoru.blog.mapper.UserMapper">
+    <!--存放用户对象的结果集-->
+    <resultMap id="user" type="com.satoru.blog.model.User">
+        <id property="uid" column="uid" />
+        <result property="username" column="username" />
+        <result property="nickname" column="nickname" />
+        <result property="email" column="email" />
+        <result property="avatar" column="avatar" />
+        <result property="role" column="role" />
+        <result property="emailVerify" column="email_verify" />
+    </resultMap>
+    <!--验证用户或密码是否正确-->
+    <select id="validLogin" resultType="com.satoru.blog.model.User">
+        select
+            uid, username, nickname, email, avatar, role, email_verify
+        from `user`
+        where username = #{username} and password = #{password};
+    </select>
+
+    <!--用户注册-->
+<!--    <insert id="insert" useGeneratedKeys="true" keyProperty="uid" keyColumn="uid">-->
+<!--        INSERT INTO `user`-->
+<!--	        (username, `password`, nickname, email)-->
+<!--	        VALUES(#{username}, #{password}, #{nickname}, #{email});-->
+<!--    </insert>-->
+
+    <!--检测用户名是否被使用-->
+    <select id="checkUsername" resultType="java.lang.Integer">
+        select count(1) from user where #{username} = user.username;
+    </select>
+
+    <!--检测昵称是否被使用-->
+    <select id="checkNickname" resultType="java.lang.Integer">
+        select count(1) from user where #{nickname} = user.nickname;
+    </select>
+
+    <!--检测邮箱是否被使用-->
+    <select id="checkEmail" resultType="java.lang.Integer">
+        select count(1) from user where #{email} = user.email;
+    </select>
+
+    <!--用户验证邮箱成功-->
+    <select id="updateEmailVerify" resultMap="user">
+        UPDATE user SET email_verify = 1 WHERE uid = #{uid};
+        select
+            uid, nickname, email, avatar, role, email_verify
+        from `user` where uid = #{uid};
+    </select>
+
+    <!--根据多种条件(用户昵称, 注册时间)查询用户数量-->
+    <select id="queryCount" resultType="int">
+        select count(1) from user
+        where true
+        <if test="nickname != ''">
+            and nickname like concat('%', #{nickname}, '%')
+        </if>
+        <if test="startTime != ''">
+            and register_time >= #{startTime}
+        </if>
+        <if test="endTime != ''">
+            and register_time &lt;= #{endTime}
+        </if>
+        ;
+    </select>
+
+    <!--后台管理 根据多种条件(用户昵称, 注册时间)和分页、每页的数量获取该分页下的用户-->
+    <select id="selectPage" resultMap="user">
+        select
+            uid, username, nickname, email, avatar, role, register_time, email_verify
+        from user
+        where true
+        <if test="nickname != ''">
+            and nickname like concat('%', #{nickname}, '%')
+        </if>
+        <if test="startTime != ''">
+            and register_time >= #{startTime}
+        </if>
+        <if test="endTime != ''">
+            and register_time &lt;= #{endTime}
+        </if>
+        limit #{index}, #{pageSize};
+    </select>
+
+    <!--根据email获取一个用户-->
+    <select id="selectByEmail" resultType="com.satoru.blog.model.User">
+        select uid, nickname, email from user where email = #{email};
+    </select>
+
+    <!--根据id获取一个用户-->
+    <select id="selectById" resultType="com.satoru.blog.model.User">
+        select username, nickname, email, avatar
+        from user where uid = #{uid};
+    </select>
+
+    <!--根据id修改用户信息-->
+    <update id="AdminUpdateUser">
+        update user
+        set username = #{username},
+            nickname = #{nickname},
+            email = #{email},
+            avatar = #{avatar}
+        where uid = #{uid};
+    </update>
+
+    <!--根据id删除一个用户-->
+    <delete id="deleteUser">
+        delete from user
+        where uid = #{uid};
+    </delete>
+
+    <!--根据id修改用户信息-->
+    <update id="updateUser">
+        update user
+        set nickname = #{nickname},
+            email = #{email}
+        where uid = #{uid};
+    </update>
+
+    <!--根据id更换用户头像-->
+    <update id="updateAvatar">
+        update user
+        set avatar = #{avatar}
+        where uid = #{uid};
+    </update>
+
+    <!--根据id用户修改密码-->
+    <update id="updatePassword">
+        update user
+        set password = #{password}
+        where uid = #{uid};
+    </update>
+</mapper>

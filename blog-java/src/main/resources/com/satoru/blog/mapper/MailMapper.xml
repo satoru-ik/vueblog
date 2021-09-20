@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.satoru.blog.mapper.MailMapper">
+    <!--根据id获取邮件模板-->
+    <select id="selectMailById" resultType="string">
+        select
+            template
+        from mail
+        where id = #{id};
+    </select>
+
+</mapper>

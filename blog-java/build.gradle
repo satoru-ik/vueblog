@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+    // 替换了 gradle 内置的依赖管理，能利用 spring 项目本身的 maven 依赖文件
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    // 自动打包成 war 包
+    id 'org.springframework.boot' version '2.3.7.RELEASE'
+    id 'war'
+    id 'idea'
+}
+
+group = 'com.satoru'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+// 编译输出能显示中文
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.4.2'
+    // 把Spring框架 + SpringMVC都包括在里面了, 会自动把Spring框架 + SpringMVC这些模块引进来。并且写好配置
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // aop切面
+    implementation 'org.springframework.boot:spring-boot-starter-aop:2.1.7.RELEASE'
+    // 发邮件的依赖
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // redis的依赖
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    compileOnly 'org.projectlombok:lombok'
+    // 运行时才需要，比如代码不直接 import tomcat，但是代码需要跑在 tomcat 上。
+    // 就可以内置一个 tomcat，这样就能 java -jar xxx.war 就能用内置 tomcat 跑项目。
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    // 编译后热更新
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // 怎么用java代码连接数据库
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    // 测试才需要的依赖，打包成 war 的时候不需要
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+//        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+//    }
+}
+
+//test {
+//    useJUnitPlatform()
+//}
+
+// 让 idea 的输出目录和 gradle 一致，这样 idea 运行的时候就能利用 gradle 的编译。加速编译和运行速度。
+idea{
+    module{
+        inheritOutputDirs = false
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+    }
+}

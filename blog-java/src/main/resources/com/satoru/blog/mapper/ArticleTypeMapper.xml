@@ -1,0 +1,72 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.satoru.blog.mapper.ArticleTypeMapper">
+
+    <resultMap id="articleType" type="com.satoru.blog.model.ArticleType">
+        <id property="articleTypeId" column="article_type_id" />
+        <result property="typeName" column="type_name" />
+        <result property="parentNode" column="parent_node" />
+        <result property="articleNumber" column="article_number" />
+    </resultMap>
+    <!--前台主页 获取除id=0以外的所有文章分类信息-->
+    <select id="selectArticleTypeList" resultMap="articleType">
+        select
+        article_type_id, type_name, parent_node,
+        (select count(1) from article where article.article_type_id = article_type.article_type_id) as article_number
+        from article_type
+        where article_type_id != 0;
+    </select>
+
+    <!--后台管理 根据分页、条件查询获取一个分页内的文章分类信息-->
+    <select id="selectTypeList" resultMap="articleType">
+        select
+                article_type_id, type_name, parent_node,
+                (select count(1) from article where article.article_type_id = article_type.article_type_id) as article_number
+        from article_type
+        <if test="typeName != null || typeName != ''">
+            where type_name like concat('%', #{typeName}, '%')
+        </if>
+        limit #{index}, #{pageSize};
+    </select>
+
+    <!--后台管理 根据条件查询获取符合要求的文章分类的数量-->
+    <select id="queryCount" resultType="int">
+        select count(1) from article_type where type_name like concat('%', #{typeName}, '%');
+    </select>
+
+    <!--后台管理 添加一个文章分类-->
+    <insert id="insertType">
+        INSERT INTO article_type(type_name, parent_node)
+        values(#{typeName}, #{parentNode});
+    </insert>
+
+    <!--后台管理 根据id删除一个文章分类-->
+    <delete id="deleteType">
+        delete from article_type
+        where article_type_id = #{id}
+    </delete>
+
+    <!--后台管理 根据id修改一个文章分类-->
+    <update id="updateType">
+        update article_type
+            set type_name = #{typeName},
+                parent_node = #{parentNode}
+        where article_type_id = #{articleTypeId}
+    </update>
+
+    <!--后台 获取父节点的结果集-->
+    <resultMap id="parentType" type="com.satoru.blog.model.ArticleType">
+        <id property="articleTypeId" column="article_type_id" />
+        <result property="typeName" column="type_name" />
+    </resultMap>
+
+    <!--后台管理 获取父节点分类列表-->
+    <select id="selectParentTypeList" resultMap="parentType">
+        select
+              article_type_id, type_name
+        from article_type
+        where article_type_id != 0 and parent_node = -1;
+    </select>
+
+</mapper>
