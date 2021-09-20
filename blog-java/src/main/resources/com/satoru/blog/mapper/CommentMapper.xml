@@ -1,0 +1,108 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.satoru.blog.mapper.CommentMapper">
+    <!--存放多条评论的结果集-->
+    <resultMap id="commentList" type="com.satoru.blog.model.Comment">
+        <id property="commentId" column="comment_id" />
+        <result property="floor" column="floor" />
+        <result property="commentContent" column="comment_content" />
+        <result property="commentTime" column="comment_time" />
+        <result property="praiseNumber" column="praise_number" />
+        <result property="deleteTag" column="delete_tag" />
+        <result property="topTag" column="top_tag" />
+        <association property="user" javaType="com.satoru.blog.model.User">
+            <result property="uid" column="uid" />
+            <result property="nickname" column="nickname" />
+            <result property="avatar" column="avatar" />
+        </association>
+        <association property="article" javaType="com.satoru.blog.model.Article">
+            <result property="articleId" column="article_id" />
+            <result property="title" column="title" />
+        </association>
+    </resultMap>
+
+    <!-- 根据文章id、分页、每页的数量获取该分页下的评论-->
+    <select id="selectPageByArticleId" resultMap="commentList" resultType="com.satoru.blog.model.Comment">
+        select
+        	c.comment_id, c.floor, c.comment_content, c.comment_time, c.comment_praise_number,
+        	u.uid, u.nickname, u.avatar
+        from `comment` as c, `user` as u
+        where c.article_id = #{articleId} and c.comment_uid = u.uid order by c.comment_time
+        limit #{index}, #{pageSize};
+    </select>
+
+    <!--根据多种条件(文章id, 评论用户昵称, 评论内容, 评论时间)查询评论数量-->
+    <select id="queryCountByArticleId" resultType="int">
+        select count(1) from comment as c, user as u
+        where c.comment_uid = u.uid
+        <if test="articleId != null">
+            and c.article_id = #{articleId}
+        </if>
+        <if test="nickname != '' and nickname != null">
+            and u.nickname like concat('%', #{nickname}, '%')
+        </if>
+        <if test="content != '' and content != null">
+            and c.comment_content like concat('%', #{content}, '%')
+        </if>
+        <if test="startTime != '' and startTime != null">
+            and c.comment_time >= #{startTime}
+        </if>
+        <if test="endTime != '' and endTime != null">
+            and c.comment_time &lt;= #{endTime}
+        </if>
+        ;
+    </select>
+
+    <!--后台管理 根据多种条件(文章id, 评论用户昵称, 评论内容, 评论时间)和分页、每页的数量获取该分页下的评论-->
+    <select id="selectPage" resultMap="commentList">
+        select
+            c.comment_id, c.floor, c.comment_content, c.comment_time, c.comment_praise_number, c.delete_tag, c.top_tag,
+            u.uid, u.nickname, u.avatar,
+            a.article_id, a.title
+        from comment as c, user as u, article as a
+        where c.comment_uid = u.uid and c.article_id = a.article_id
+        <if test="articleId != null">
+            and c.article_id = #{articleId}
+        </if>
+        <if test="nickname != ''">
+            and u.nickname like concat('%', #{nickname}, '%')
+        </if>
+        <if test="content != ''">
+            and c.comment_content like concat('%', #{content}, '%')
+        </if>
+        <if test="startTime != ''">
+            and c.comment_time >= #{startTime}
+        </if>
+        <if test="endTime != ''">
+            and c.comment_time &lt;= #{endTime}
+        </if>
+        order by c.comment_time
+        limit #{index}, #{pageSize};
+    </select>
+
+    <!--添加一条评论-->
+    <insert id="insert">
+        INSERT INTO `comment`
+        (article_id, floor, comment_uid, comment_content)
+        	select #{articleId}, count(1) + 1, #{user.uid}, #{commentContent}
+        	from `comment`
+        	where article_id = #{articleId};
+    </insert>
+
+    <!--根据id删除一条评论-->
+    <delete id="deleteById">
+        DELETE from comment
+        where comment_id = #{id};
+    </delete>
+
+    <!--根据id修改一条评论和状态-->
+    <update id="updateById">
+        update comment set
+            comment_content = #{commentContent},
+            delete_tag = #{deleteTag},
+            top_tag = #{topTag}
+        where comment_id = #{commentId};
+    </update>
+
+</mapper>

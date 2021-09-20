@@ -1,0 +1,57 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.satoru.blog.mapper.CommentTreeMapper">
+    <!--存放评论树一个分页中的评论-->
+    <resultMap id="commentTreeList" type="com.satoru.blog.model.CommentTree">
+        <id property="commentTreeId" column="comment_tree_id" />
+        <result property="commentId" column="comment_id" />
+        <result property="content" column="comment" />
+        <result property="commentTreeTime" column="comment_tree_time" />
+        <association property="commentUser" javaType="com.satoru.blog.model.User" >
+            <result property="uid" column="comment_uid" />
+            <result property="nickname" column="nickname" />
+        </association>
+        <association property="toCommentUser" javaType="com.satoru.blog.model.User" >
+            <result property="uid" column="to_comment_uid" />
+            <result property="nickname" column="to_nickname" />
+        </association>
+    </resultMap>
+
+    <!--默认评论树-->
+    <select id="defaultList" resultMap="commentTreeList" resultType="com.satoru.blog.model.CommentTree">
+        select DISTINCT
+        	ct.comment_tree_id, ct.comment_id, ct.content , ct.comment_tree_time,
+        	comment_uid, (select nickname from `user` where `user`.uid = ct.comment_uid) as nickname,
+        	to_comment_uid, (select nickname from `user` where `user`.uid = ct.to_comment_uid) as to_nickname
+        from comment_tree as ct , `user` as u
+        where comment_id = #{commentId}
+        limit 0,10;
+    </select>
+<!--    select count(1) from comment_tree where comment_id = ;-->
+
+    <!--根据评论id和分页获取评论树-->
+    <select id="selectCommentTreePage" resultMap="commentTreeList" resultType="com.satoru.blog.model.CommentTree">
+        select DISTINCT
+        	ct.comment_tree_id, ct.comment_id, ct.content , ct.comment_tree_time,
+        	comment_uid, (select nickname from `user` where `user`.uid = ct.comment_uid) as nickname,
+        	to_comment_uid, (select nickname from `user` where `user`.uid = ct.to_comment_uid) as to_nickname
+        from comment_tree as ct , `user` as u
+        where comment_id = #{commentId}
+        limit 0,10;
+    </select>
+
+    <!--根据评论id,在评论树下添加一条评论-->
+    <insert id="insertByCommentId">
+        INSERT INTO comment_tree
+            (comment_id, comment_uid, to_comment_uid, content)
+            VALUES(#{commentId}, #{commentUser.uid}, #{toCommentUser.uid}, #{content});
+    </insert>
+
+    <!--根据id删除一条评论-->
+    <insert id="deleteById">
+        DELETE from comment_tree
+        where comment_tree_id = #{id};
+    </insert>
+
+</mapper>
