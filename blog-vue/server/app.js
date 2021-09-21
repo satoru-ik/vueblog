@@ -67,20 +67,8 @@ app.get('/img/download/*', (req, res) => {
     })
 })
 
-app.post('/test', (req, res) => {
-    res.send({
-        x: 1
-    })
-})
-
-// app.post('/t/test', (req, res) => {
-//     res.send({
-//         x: 1
-//     })
-// })
 
 app.listen(port, () => {
     console.log(`api服务启动成功,端口监听:${port}`)
 })
 
-// "test": "echo \"Error: no test specified\" && exit 1"
