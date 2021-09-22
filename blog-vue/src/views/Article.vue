@@ -118,7 +118,9 @@ export default {
 .article {
     padding: 20px;
 }
+</style>
 
+<style>
 /**
     富文本编辑器的样式
 */

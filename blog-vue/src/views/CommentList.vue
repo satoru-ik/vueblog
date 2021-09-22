@@ -199,6 +199,9 @@ export default {
                 if (response.data.code === 200) {
                     commentList.length = 0
                     Object.assign(commentList, response.data.data);
+                    for(let i = 0; i < commentList.length; i++) {
+                        commentList[i].commentContent = filter(commentList[i].commentContent)
+                    }
                     total.value = response.data.total;
                 } else {
                     ElMessage({
@@ -258,6 +261,15 @@ export default {
                         message: "已取消删除",
                     });
                 });
+        }
+        // 过滤html标签
+        function filter(str) {
+            let reg=/<[^<>]+>/g
+            if (str === undefined) {
+                console.log('str', str)
+                return ''
+            }
+            return str.replace(reg, '')
         }
 
         /**

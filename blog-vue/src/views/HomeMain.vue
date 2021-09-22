@@ -127,6 +127,9 @@ export default {
             }).then(function (response){
                 articleList.length = 0
                 articleList.push(...response.data.data)
+                for(let i = 0; i < articleList.length; i++) {
+                    articleList[i].content = filter(articleList[i].content)
+                }
                 total.value = response.data.total
             })
         }
@@ -159,6 +162,15 @@ export default {
                 }
             }
             return list;
+        }
+        // 过滤html标签
+        function filter(str) {
+            let reg=/<[^<>]+>/g
+            if (str === undefined) {
+                console.log('str', str)
+                return ''
+            }
+            return str.replace(reg, '')
         }
 
         /**
