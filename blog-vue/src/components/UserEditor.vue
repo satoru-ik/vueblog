@@ -72,8 +72,10 @@ export default {
                     method: 'POST',
                     url: '/web/comment/insert',
                     data: {
-                        articleId: comment.articleId,
-                        commentContent: comment.content
+                        commentContent: comment.content,
+                        article: {
+                            articleId: comment.articleId
+                        }
                     }
                 }).then(function(response) {
                     if(response.data.code === 200) {
