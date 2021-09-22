@@ -2,7 +2,6 @@ package com.satoru.blog.controller;
 
 import com.satoru.blog.model.ArticleType;
 import com.satoru.blog.service.ArticleTypeService;
-import com.satoru.blog.utility.Utility;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
