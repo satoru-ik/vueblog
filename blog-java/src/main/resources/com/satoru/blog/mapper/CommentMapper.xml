@@ -85,9 +85,9 @@
     <insert id="insert">
         INSERT INTO `comment`
         (article_id, floor, comment_uid, comment_content)
-        	select #{articleId}, count(1) + 1, #{user.uid}, #{commentContent}
+        	select #{article.articleId}, count(1) + 1, #{user.uid}, #{commentContent}
         	from `comment`
-        	where article_id = #{articleId};
+        	where article_id = #{article.articleId};
     </insert>
 
     <!--根据id删除一条评论-->

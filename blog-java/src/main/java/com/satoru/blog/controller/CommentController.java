@@ -75,6 +75,7 @@ public class CommentController {
         Map<String, Object> map = new HashMap();
         User user = this.redisService.currentUser(request);
         comment.setUser(user);
+        Utility.log("comment:%s", comment.getArticle());
         Integer result = this.commentService.insert(comment);
         if (result == 1) {
             map.put("code", 200);

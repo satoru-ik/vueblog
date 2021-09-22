@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: './',
+    // publicPath: './',
     devServer: {
         proxy: {
             '/api': {
@@ -11,7 +11,7 @@ module.exports = {
                 }
             },
             '/web': {
-                target: 'http://localhost:80/',
+                target: 'http://localhost:9000/',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
