@@ -52,7 +52,7 @@ export default {
             console.log('editor--当前用户', currentUser)
             console.log('过滤结果:', filter(comment.content))
             console.log(comment)
-            if(currentUser === null) {
+            if(currentUser.uid === undefined) {
                 ElMessage({
                     type: 'error',
                     message: '请登录后进行回复!'

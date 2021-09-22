@@ -134,6 +134,7 @@ export default {
                         message: '退出成功!',
                         duration: 1000,
                         onClose: () => {
+                            currentUser.uid = undefined
                             currentUser.nickname = undefined
                         }
                     })
