@@ -3,6 +3,7 @@ package com.satoru.blog.service;
 import com.satoru.blog.mapper.MailMapper;
 import com.satoru.blog.model.User;
 import com.satoru.blog.utility.Utility;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,15 +19,15 @@ import javax.mail.internet.MimeMessage;
  */
 @Service
 public class MailService {
-    private JavaMailSender sender;
-    private MailProperties properties;
-    private MailMapper mailMapper;
-    private MimeMessage message;
+    private final JavaMailSender sender;
+    private final MailProperties properties;
+    private final MailMapper mailMapper;
+    private final MimeMessage message;
     private MimeMessageHelper mimeMessageHelper;
     /**
      * 部署在服务器之前记得修改website
      */
-    private String website = "http://localhost:8081";
+    private String website = "http://localhost:8080";
 
     public MailService(JavaMailSender sender, MailProperties properties, MailMapper mailMapper) {
         this.sender = sender;
@@ -46,7 +47,7 @@ public class MailService {
      * 发送验证邮箱的邮件
      */
     @Async
-    public Boolean sendMailActivate(User user, String title, String token) {
+    public void sendMailActivate(User user, String title, String token) {
         try {
             this.mimeMessageHelper.setFrom(this.properties.getUsername());
             this.mimeMessageHelper.setSubject("新用户邮箱注册验证");
@@ -62,14 +63,13 @@ public class MailService {
             Utility.log("异步发送账户激活邮件出错,%s", e);
             e.printStackTrace();
         }
-        return true;
     }
 
     /**
      * 发送修改密码的邮件
      */
     @Async
-    public Boolean sendMailEditPassword(User user, String title, String token) {
+    public void sendMailEditPassword(User user, String title, String token) {
 
         try {
             this.mimeMessageHelper.setFrom(this.properties.getUsername());
@@ -86,6 +86,5 @@ public class MailService {
             Utility.log("异步发送账户激活邮件出错,%s", e);
             e.printStackTrace();
         }
-        return true;
     }
 }
