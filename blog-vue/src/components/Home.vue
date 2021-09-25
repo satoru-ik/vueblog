@@ -57,14 +57,14 @@
         </el-header>
         <el-main>
             <el-row>
-                <el-col :span="6">
+                <el-col :xl="6" :lg="7">
                     <left-aside>
                     </left-aside>
                 </el-col>
-                <el-col :span="12" class="minWidth">
+                <el-col :xl="12" :lg="12" class="minWidth">
                     <router-view></router-view>
                 </el-col>
-                <el-col :span="6">
+                <el-col :xl="6">
                 </el-col>
             </el-row>
         </el-main>
@@ -72,7 +72,7 @@
             <span>
                 Copyright © 2021
                 <el-link :underline="false" type="primary" href="">
-                    网站
+                    网站名
                 </el-link>|
             </span>
             <span>
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { reactive, ref, provide, onBeforeMount, toRefs, computed, watch } from "vue"
+import { reactive, ref, provide, onBeforeMount, toRefs, watch } from "vue"
 import router from "../router/index"
 import axios from "axios"
 import { ElMessage } from "element-plus"
@@ -102,7 +102,6 @@ export default {
         // 顶部导航栏
         const activeIndex = ref('1')
         const search = ref(route.query.search)
-        const jugeLogin = ref(false)
         const currentUser = reactive({})
         // 记录网站存活时间
         const startTime = ref(1632541678743)
@@ -186,7 +185,7 @@ export default {
         
 
         return {
-            activeIndex, search, jugeLogin, currentUser, ...toRefs(time),
+            activeIndex, search, currentUser, ...toRefs(time),
             userQutit, routeBackstage,
             routeHome, routeLogin, routeRegister
         }
@@ -195,6 +194,9 @@ export default {
 </script>
 
 <style scoped>
+.el-container {
+    height: 100%;
+}
 .el-header {
     background-color: #393d49;
     color: #fff;

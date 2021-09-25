@@ -11,7 +11,7 @@
             <el-container>
                 <el-aside width="50px">
                     <a href="javascript:;">
-                        <el-avatar :size="45" src='/api/img/download/default.jpg'>
+                        <el-avatar :size="45" :src='comment.user.avatar'>
                         </el-avatar>
                     </a>
                 </el-aside>

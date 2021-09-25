@@ -2,8 +2,8 @@
     <el-container>
         <el-main>
             <el-row>
-                <el-col :span="14" :offset="10">
-                    <el-card class="box-card">
+                <el-col :xl="{span:14, offset: 10}" :lg="{span:16, offset: 8}" :md="{span:20, offset: 4}" :sm="0">
+                    <el-card>
                         <template #header>
                             <span>公告栏</span>
                         </template>
