@@ -68,11 +68,27 @@
                 </el-col>
             </el-row>
         </el-main>
+        <el-footer height="30px">
+            <span>
+                Copyright © 2021
+                <el-link :underline="false" type="primary" href="">
+                    网站
+                </el-link>|
+            </span>
+            <span>
+                网站已存活{{days}}天{{hours}}小时{{minutes}}分钟{{seconds}}秒|
+            </span>
+            <span>
+                <el-link :underline="false" type="primary" href="https://beian.miit.gov.cn/">
+                    备案号
+                </el-link>
+            </span>
+        </el-footer>
     </el-container>
 </template>
 
 <script>
-import { reactive, ref, provide, onBeforeMount, watch } from "vue"
+import { reactive, ref, provide, onBeforeMount, toRefs, computed, watch } from "vue"
 import router from "../router/index"
 import axios from "axios"
 import { ElMessage } from "element-plus"
@@ -88,6 +104,27 @@ export default {
         const search = ref(route.query.search)
         const jugeLogin = ref(false)
         const currentUser = reactive({})
+        // 记录网站存活时间
+        const startTime = ref(1632541678743)
+        const currentTime = ref(new Date().getTime())
+        const time = reactive({
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0
+        })
+        // 每过1秒更新一下当前时间
+        setInterval(() => {
+            currentTime.value += 1000
+        }, 1000)
+
+        // 监听当前时间的变化,根据当前时间计算出网站存活的天数、小时数等等
+        watch(currentTime, (newValue, oldValue) => {
+            time.days = parseInt((newValue - startTime.value) / (1000 * 60 * 60 * 24)),
+            time.hours = parseInt(((newValue - startTime.value) / (1000 * 60 * 60)) % 24),
+            time.minutes = parseInt(((newValue - startTime.value) / (1000 * 60)) % 60),
+            time.seconds = parseInt(((newValue - startTime.value) / 1000) % 60)
+        })
 
 
         /**
@@ -149,7 +186,7 @@ export default {
         
 
         return {
-            activeIndex, search, jugeLogin, currentUser,
+            activeIndex, search, jugeLogin, currentUser, ...toRefs(time),
             userQutit, routeBackstage,
             routeHome, routeLogin, routeRegister
         }
@@ -184,6 +221,20 @@ export default {
 }
 .home-header ul {
     border: 0;
+}
+.el-footer {
+    padding: 0;
+    background-color: #393d49;
+    color: #fff;
+    text-align: center;
+}
+.el-footer span {
+    line-height: 30px;
+    margin-right: 10px;
+}
+.el-footer a {
+    font-size: 16px;
+    vertical-align: baseline;
 }
 </style>
 
