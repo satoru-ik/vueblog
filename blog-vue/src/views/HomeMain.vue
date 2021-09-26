@@ -33,11 +33,11 @@
             </el-space>
         </div>
     </div>
-    <div class="main-div article" v-for="article in articleList" :key="article.articleId">
+    <div class="main-div article" v-for="(article, index) in articleList" :key="article.articleId">
         <el-row>
-            <el-col :span="11" class="outline">
+            <el-col :span="11" :push="(index % 2) * 13" class="outline">
                 <el-container>
-                    <el-header>
+                    <el-header :class="[(index % 2) == 1?'text-right': '']">
                         <div class="outline-icon">
                             <i class="el-icon-date"></i><span>发布于{{article.startTime}}</span>
                         </div>
@@ -50,7 +50,7 @@
                             <p>{{article.content}}</p>
                         </div>
                     </el-main>
-                    <el-footer height="30">
+                    <el-footer height="30" :class="[(index % 2) == 1?'text-right': '']">
                         <div class="outline-icon">
                             <i class="el-icon-view"></i><span>{{article.viewedNumber}}次阅读</span>
                             <i class="el-icon-chat-dot-square"></i><span>{{article.commentNumber}}条评论</span>
@@ -59,7 +59,7 @@
                     </el-footer>
                 </el-container>
             </el-col>
-            <el-col :span="13">
+            <el-col :span="13" :pull="(index % 2) * 11">
                 <a @click="routeArticle(article.articleId)">
                     <el-image style="height:100%; weight:100%;" src='/api/img/download/img287.jpg' fit="cover">
                     </el-image>
@@ -340,5 +340,9 @@ export default {
 .el-main {
     padding-top: 0;
     padding-bottom: 0;
+}
+/**文章内容靠右对齐 */
+.text-right {
+    text-align: right;
 }
 </style>
