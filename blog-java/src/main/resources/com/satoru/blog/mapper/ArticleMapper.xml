@@ -41,7 +41,7 @@
     </resultMap>
 
     <!--根据分页、条件查询获取一个分页内的文章简略信息-->
-    <select id="selectArticlePage" resultMap="article" resultType="com.satoru.blog.model.Article">
+    <select id="queryArticlePage" resultMap="article" resultType="com.satoru.blog.model.Article">
         select
             a.article_id, a.article_type_id,
 	        t.type_name, t.parent_node,
@@ -62,7 +62,7 @@
     </select>
 
     <!--获取1个文章的信息-->
-    <select id="selectOneById" resultMap="article" resultType="com.satoru.blog.model.Article">
+    <select id="queryOneById" resultMap="article" resultType="com.satoru.blog.model.Article">
         select
             a.article_id, a.article_type_id,
 	        t.type_name, t.parent_node,

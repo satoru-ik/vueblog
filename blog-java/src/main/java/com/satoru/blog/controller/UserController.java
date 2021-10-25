@@ -62,6 +62,7 @@ public class UserController {
             map.put("msg", "登录成功!");
             String token = UUID.randomUUID().toString();
             Cookie cookie = new Cookie("session_id", token);
+            System.out.println("time:" + time);
             time = 86400 * time;
             cookie.setMaxAge(time);
             cookie.setHttpOnly(true);
@@ -176,13 +177,13 @@ public class UserController {
      * 后台管理 根据多种条件(用户昵称, 注册时间)和分页、每页的数量获取该分页下的用户
      */
     @GetMapping("page")
-    public Map<String, Object> selectPage(@RequestParam(name = "nickname", required = false, defaultValue = "") String nickname,
+    public Map<String, Object> queryPage(@RequestParam(name = "nickname", required = false, defaultValue = "") String nickname,
                                           @RequestParam(name = "startTime", required = false, defaultValue = "") String startTime,
                                           @RequestParam(name = "endTime", required = false, defaultValue = "") String endTime,
                                           @RequestParam(name = "pageNum", required = false,defaultValue = "1") Integer pageNum,
                                           @RequestParam(name = "pageSize", required = false,defaultValue = "10") Integer pageSize) {
         Map<String, Object> map = new HashMap();
-        List<User> list = this.userService.selectPage(nickname, startTime, endTime, pageNum, pageSize);
+        List<User> list = this.userService.queryPage(nickname, startTime, endTime, pageNum, pageSize);
         Integer total = this.userService.queryCount(nickname, startTime, endTime);
         map.put("code", 200);
         map.put("data", list);
@@ -196,7 +197,7 @@ public class UserController {
     @GetMapping("reset")
     public Map<String, Object> reset(@RequestParam String email) {
         Map<String, Object> map = new HashMap<>();
-        User user = this.userService.selectByEmail(email);
+        User user = this.userService.queryByEmail(email);
         if(user == null) {
             map.put("code", 404);
             map.put("msg", "该邮箱并未注册账号!");
@@ -225,7 +226,7 @@ public class UserController {
             map.put("msg", "该验证消息已过期!");
         } else {
             Integer uid = Integer.valueOf(value);
-            User user = this.userService.selectById(uid);
+            User user = this.userService.queryById(uid);
             if(user == null) {
                 map.put("code", 404);
                 map.put("msg", "该验证消息已过期!");
@@ -391,8 +392,6 @@ public class UserController {
 
     /**
      * 根据id修改用户密码
-     * 此处有问题，@RequestParam不能获取put请求中的参数
-     * @RequestParam只能接收x-www-form-urlencoded编码格式的数据
      */
     @PutMapping("update/password")
     public Map<String, Object> updatePassword(@RequestBody User user) {

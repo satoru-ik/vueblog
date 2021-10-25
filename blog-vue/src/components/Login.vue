@@ -182,10 +182,12 @@ export default {
                     axios({
                         method: "POST",
                         url: "/web/user/login",
+                        params: {
+                            time: time
+                        },
                         data: {
                             username: user.username,
-                            password: user.password,
-                            time: time,
+                            password: user.password
                         },
                     }).then(function (response) {
                         console.log("返回是", response);

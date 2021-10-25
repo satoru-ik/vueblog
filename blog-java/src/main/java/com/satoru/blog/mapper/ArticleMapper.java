@@ -16,13 +16,13 @@ import java.util.List;
 @Mapper
 public interface ArticleMapper {
     // 根据文章分类、文章标题、分页起始的索引和每页多少条数据来查询一个分页的文章列表
-    List<Article> selectArticlePage(@Param("index") Integer index,
+    List<Article> queryArticlePage(@Param("index") Integer index,
                                     @Param("pageSize") Integer pageSize,
                                     @Param("title") String title,
                                     @Param("articleTypeId") Integer articleTypeId);
 
     // 根据id查询一篇文章
-    Article selectOneById(@Param("id") Integer id);
+    Article queryOneById(@Param("id") Integer id);
 
     // 添加一篇文章
     Integer insert(Article article);

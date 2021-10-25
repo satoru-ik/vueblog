@@ -51,7 +51,7 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 后台管理 根据多种条件(用户昵称, 注册时间)和分页、每页的数量获取该分页下的用户
      */
-    List<User> selectPage(@Param("nickname") String nickname,
+    List<User> queryPage(@Param("nickname") String nickname,
                           @Param("startTime") String startTime,
                           @Param("endTime") String endTime,
                           @Param("index") Integer index,
@@ -60,12 +60,12 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 根据email获取一个用户
      */
-    User selectByEmail(@Param("email") String email);
+    User queryByEmail(@Param("email") String email);
 
     /**
      * 根据uid获取一个用户
      */
-    User selectById(@Param("uid") Integer uid);
+    User queryById(@Param("uid") Integer uid);
 
     /**
      * 管理员根据id修改用户信息

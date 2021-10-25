@@ -23,16 +23,16 @@ public class ArticleTypeService {
     /**
      * 前台 获取除id=0以外的所有文章分类信息
      */
-    public List<ArticleType> selectArticleTypeList() {
-        return this.articleTypeMapper.selectArticleTypeList();
+    public List<ArticleType> queryArticleTypeList() {
+        return this.articleTypeMapper.queryArticleTypeList();
     }
 
     /**
      * 后台管理 根据分页、条件查询获取一个分页内的文章分类信息
      */
-    public List<ArticleType> selectTypeList(Integer pageNum, Integer pageSize, String typeName) {
+    public List<ArticleType> queryTypeList(Integer pageNum, Integer pageSize, String typeName) {
         Integer index = (pageNum - 1) * pageSize;
-        return this.articleTypeMapper.selectTypeList(index, pageSize, typeName);
+        return this.articleTypeMapper.queryTypeList(index, pageSize, typeName);
     }
 
     /**
@@ -66,7 +66,7 @@ public class ArticleTypeService {
     /**
      * 后台管理 获取父节点分类列表
      */
-    public List<ArticleType> selectParentTypeList() {
-        return this.articleTypeMapper.selectParentTypeList();
+    public List<ArticleType> queryParentTypeList() {
+        return this.articleTypeMapper.queryParentTypeList();
     }
 }

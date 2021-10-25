@@ -39,7 +39,7 @@ public class CommentController {
                                                      @RequestParam(name = "pageSize",required = false,defaultValue = "10") Integer pageSize) {
         Map<String, Object> map = new HashMap();
         map.put("code", 200);
-        List<Comment> commentList = this.commentService.selectPageByArticleId(articleId, pageNum - 1, pageSize);
+        List<Comment> commentList = this.commentService.queryPageByArticleId(articleId, pageNum - 1, pageSize);
         Integer total = this.commentService.queryCountByArticleId(articleId, null, null, null, null);
         map.put("data", commentList);
         map.put("total", total);
@@ -59,7 +59,7 @@ public class CommentController {
                                          @RequestParam(name = "pageNum",required = false,defaultValue = "1") Integer pageNum,
                                          @RequestParam(name = "pageSize",required = false,defaultValue = "10") Integer pageSize) {
         Map<String, Object> map = new HashMap();
-        List<Comment> list = this.commentService.selectPage(articleId, nickname, content, startTime, endTime, pageNum, pageSize);
+        List<Comment> list = this.commentService.queryPage(articleId, nickname, content, startTime, endTime, pageNum, pageSize);
         Integer total = this.commentService.queryCountByArticleId(articleId, nickname, content, startTime, endTime);
         map.put("code", 200);
         map.put("data", list);

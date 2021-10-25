@@ -19,12 +19,12 @@ public class CommentTreeService {
         this.commentTreeMapper = commentTreeMapper;
     }
 
-    public List<CommentTree> defaultList(Integer commentId) {
-        return this.commentTreeMapper.defaultList(commentId);
+    public List<CommentTree> queryDefaultList(Integer commentId) {
+        return this.commentTreeMapper.queryDefaultList(commentId);
     }
 
-    public List<CommentTree> selectCommentTreePage(Integer commentId, Integer pageNum) {
-        return this.commentTreeMapper.selectCommentTreePage(commentId, pageNum);
+    public List<CommentTree> queryCommentTreePage(Integer commentId, Integer pageNum) {
+        return this.commentTreeMapper.queryCommentTreePage(commentId, pageNum);
     }
 
     public Boolean insertByCommentId(CommentTree commentTree) {

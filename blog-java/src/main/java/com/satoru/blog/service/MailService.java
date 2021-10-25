@@ -52,7 +52,7 @@ public class MailService {
             this.mimeMessageHelper.setFrom(this.properties.getUsername());
             this.mimeMessageHelper.setSubject("新用户邮箱注册验证");
             this.website = String.format("%s/user/activate?token=%s", this.website, token);
-            String content = this.mailMapper.selectMailById(1);
+            String content = this.mailMapper.queryMailById(1);
             content = content.replace("{username}", user.getNickname());
             content = content.replace("{website}", this.website);
             this.mimeMessageHelper.setText(content, true);
@@ -75,7 +75,7 @@ public class MailService {
             this.mimeMessageHelper.setFrom(this.properties.getUsername());
             this.mimeMessageHelper.setSubject("重置密码");
             this.website = String.format("%s/user/resetPassword?token=%s", this.website, token);
-            String content = this.mailMapper.selectMailById(2);
+            String content = this.mailMapper.queryMailById(2);
             content = content.replace("{username}", user.getNickname());
             content = content.replace("{website}", this.website);
             this.mimeMessageHelper.setText(content, true);

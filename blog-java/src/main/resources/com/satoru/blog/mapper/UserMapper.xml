@@ -67,7 +67,7 @@
     </select>
 
     <!--后台管理 根据多种条件(用户昵称, 注册时间)和分页、每页的数量获取该分页下的用户-->
-    <select id="selectPage" resultMap="user">
+    <select id="queryPage" resultMap="user">
         select
             uid, username, nickname, email, avatar, role, register_time, email_verify
         from user
@@ -85,12 +85,12 @@
     </select>
 
     <!--根据email获取一个用户-->
-    <select id="selectByEmail" resultType="com.satoru.blog.model.User">
+    <select id="queryByEmail" resultType="com.satoru.blog.model.User">
         select uid, nickname, email from user where email = #{email};
     </select>
 
     <!--根据id获取一个用户-->
-    <select id="selectById" resultType="com.satoru.blog.model.User">
+    <select id="queryById" resultType="com.satoru.blog.model.User">
         select username, nickname, email, avatar
         from user where uid = #{uid};
     </select>

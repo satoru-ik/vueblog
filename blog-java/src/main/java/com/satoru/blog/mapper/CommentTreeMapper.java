@@ -15,9 +15,9 @@ import java.util.List;
 @Repository
 @Mapper
 public interface CommentTreeMapper {
-    List<CommentTree> defaultList(@Param("commentId") Integer commentId);
+    List<CommentTree> queryDefaultList(@Param("commentId") Integer commentId);
 
-    List<CommentTree> selectCommentTreePage(@Param("commentId") Integer commentId, @Param("pageNum") Integer pageNum);
+    List<CommentTree> queryCommentTreePage(@Param("commentId") Integer commentId, @Param("pageNum") Integer pageNum);
 
     Boolean insertByCommentId(CommentTree commentTree);
 

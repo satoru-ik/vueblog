@@ -18,7 +18,7 @@ public interface CommentMapper {
     /**
      * 根据文章id、分页、每页的数量获取该分页下的评论
      */
-    List<Comment> selectPageByArticleId(@Param("articleId") Integer articleId,
+    List<Comment> queryPageByArticleId(@Param("articleId") Integer articleId,
                                         @Param("index") Integer index,
                                         @Param("pageSize") Integer pageSize);
 
@@ -34,7 +34,7 @@ public interface CommentMapper {
     /**
      *  后台管理 根据多种条件(文章id, 评论用户昵称, 评论内容, 评论时间段)和分页、每页的数量获取该分页下的评论
      */
-    List<Comment> selectPage(@Param("articleId") Integer articleId,
+    List<Comment> queryPage(@Param("articleId") Integer articleId,
                              @Param("nickname") String nickname,
                              @Param("content") String content,
                              @Param("startTime") String startTime,

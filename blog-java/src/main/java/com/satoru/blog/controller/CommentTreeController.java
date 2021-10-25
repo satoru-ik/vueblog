@@ -29,7 +29,7 @@ public class CommentTreeController {
     @GetMapping("treeList")
     public Map<String, Object> selectCommentTreePage(Integer commentId, Integer pageNum) {
         Map<String, Object> map = new HashMap();
-        List<CommentTree> commentTreeList = this.commentTreeService.selectCommentTreePage(commentId, pageNum - 1);
+        List<CommentTree> commentTreeList = this.commentTreeService.queryCommentTreePage(commentId, pageNum - 1);
         map.put("data", commentTreeList);
         return map;
     }

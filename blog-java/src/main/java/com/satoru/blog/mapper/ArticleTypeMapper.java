@@ -16,12 +16,12 @@ public interface ArticleTypeMapper {
     /**
      * 前台 获取除id=0以外的所有文章分类信息
      */
-    List<ArticleType> selectArticleTypeList();
+    List<ArticleType> queryArticleTypeList();
 
     /**
      * 后台管理 根据分页、条件查询获取一个分页内的文章分类信息
      */
-    List<ArticleType> selectTypeList(@Param("index") Integer index,
+    List<ArticleType> queryTypeList(@Param("index") Integer index,
                                      @Param("pageSize") Integer pageSize,
                                      @Param("typeName") String typeName);
 
@@ -48,5 +48,5 @@ public interface ArticleTypeMapper {
     /**
      * 后台管理 获取父节点分类列表
      */
-    List<ArticleType> selectParentTypeList();
+    List<ArticleType> queryParentTypeList();
 }

@@ -10,7 +10,7 @@
         <result property="articleNumber" column="article_number" />
     </resultMap>
     <!--前台主页 获取除id=0以外的所有文章分类信息-->
-    <select id="selectArticleTypeList" resultMap="articleType">
+    <select id="queryArticleTypeList" resultMap="articleType">
         select
         article_type_id, type_name, parent_node,
         (select count(1) from article where article.article_type_id = article_type.article_type_id) as article_number
@@ -19,7 +19,7 @@
     </select>
 
     <!--后台管理 根据分页、条件查询获取一个分页内的文章分类信息-->
-    <select id="selectTypeList" resultMap="articleType">
+    <select id="queryTypeList" resultMap="articleType">
         select
                 article_type_id, type_name, parent_node,
                 (select count(1) from article where article.article_type_id = article_type.article_type_id) as article_number
@@ -62,7 +62,7 @@
     </resultMap>
 
     <!--后台管理 获取父节点分类列表-->
-    <select id="selectParentTypeList" resultMap="parentType">
+    <select id="queryParentTypeList" resultMap="parentType">
         select
               article_type_id, type_name
         from article_type

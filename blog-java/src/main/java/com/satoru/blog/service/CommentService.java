@@ -27,12 +27,12 @@ public class CommentService {
     /**
      * 根据文章id、分页、每页的数量获取该分页下的评论
      */
-    public List<Comment> selectPageByArticleId(Integer articleId, Integer pageNum, Integer pageSize) {
+    public List<Comment> queryPageByArticleId(Integer articleId, Integer pageNum, Integer pageSize) {
         Integer index = pageNum * pageSize;
-        List<Comment> list = this.commentMapper.selectPageByArticleId(articleId, index, pageSize);
+        List<Comment> list = this.commentMapper.queryPageByArticleId(articleId, index, pageSize);
 
         for (Comment comment : list) {
-            comment.setCommentTreeList(this.commentTreeMapper.selectCommentTreePage(comment.getCommentId(), 0));
+            comment.setCommentTreeList(this.commentTreeMapper.queryCommentTreePage(comment.getCommentId(), 0));
         }
         return list;
     }
@@ -47,10 +47,10 @@ public class CommentService {
     /**
      *  后台管理 根据多种条件(文章id, 评论用户昵称, 评论内容, 评论时间段)和分页、每页的数量获取该分页下的评论
      */
-    public List<Comment> selectPage(Integer articleId, String nickname, String content, String startTime, String endTime,
+    public List<Comment> queryPage(Integer articleId, String nickname, String content, String startTime, String endTime,
                                     Integer pageNum, Integer pageSize) {
         Integer index = (pageNum - 1) * pageSize;
-        return this.commentMapper.selectPage(articleId, nickname, content, startTime, endTime, index, pageSize);
+        return this.commentMapper.queryPage(articleId, nickname, content, startTime, endTime, index, pageSize);
     }
 
     /**

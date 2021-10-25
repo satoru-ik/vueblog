@@ -68,23 +68,23 @@ public class UserService {
     /**
      * 后台管理 根据多种条件(用户昵称, 注册时间)和分页、每页的数量获取该分页下的用户
      */
-    public List<User> selectPage(String nickname, String startTime, String endTime, Integer pageNum, Integer pageSize) {
+    public List<User> queryPage(String nickname, String startTime, String endTime, Integer pageNum, Integer pageSize) {
         Integer index = (pageNum - 1) * pageSize;
-        return userMapper.selectPage(nickname, startTime, endTime, index, pageSize);
+        return userMapper.queryPage(nickname, startTime, endTime, index, pageSize);
     }
 
     /**
      * 根据email获取一个用户
      */
-    public User selectByEmail(String email) {
-        return userMapper.selectByEmail(email);
+    public User queryByEmail(String email) {
+        return userMapper.queryByEmail(email);
     }
 
     /**
      * 根据uid获取一个用户
      */
-    public User selectById(Integer uid) {
-        return userMapper.selectById(uid);
+    public User queryById(Integer uid) {
+        return userMapper.queryById(uid);
     }
 
     /**

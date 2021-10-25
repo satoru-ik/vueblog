@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface MailMapper {
-    String selectMailById(@Param("id") Integer id);
+    String queryMailById(@Param("id") Integer id);
 }

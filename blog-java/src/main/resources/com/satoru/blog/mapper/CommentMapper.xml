@@ -23,7 +23,7 @@
     </resultMap>
 
     <!-- 根据文章id、分页、每页的数量获取该分页下的评论-->
-    <select id="selectPageByArticleId" resultMap="commentList" resultType="com.satoru.blog.model.Comment">
+    <select id="queryPageByArticleId" resultMap="commentList" resultType="com.satoru.blog.model.Comment">
         select
         	c.comment_id, c.floor, c.comment_content, c.comment_time, c.comment_praise_number,
         	u.uid, u.nickname, u.avatar
@@ -55,7 +55,7 @@
     </select>
 
     <!--后台管理 根据多种条件(文章id, 评论用户昵称, 评论内容, 评论时间)和分页、每页的数量获取该分页下的评论-->
-    <select id="selectPage" resultMap="commentList">
+    <select id="queryPage" resultMap="commentList">
         select
             c.comment_id, c.floor, c.comment_content, c.comment_time, c.comment_praise_number, c.delete_tag, c.top_tag,
             u.uid, u.nickname, u.avatar,

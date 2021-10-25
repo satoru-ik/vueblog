@@ -26,10 +26,10 @@ public class ArticleTypeController {
      * 前台 获取除id=0以外的所有文章分类信息
      */
     @GetMapping("headerList")
-    public Map<String, Object> frontSelectArticleTypeList() {
+    public Map<String, Object> queryArticleTypeList() {
         Map<String, Object> map = new HashMap();
         map.put("code", 200);
-        map.put("data", this.articleTypeService.selectArticleTypeList());
+        map.put("data", this.articleTypeService.queryArticleTypeList());
         return map;
     }
 
@@ -37,12 +37,12 @@ public class ArticleTypeController {
      * 后台管理 根据分页、条件查询获取一个分页内的文章分类信息
      */
     @GetMapping("list")
-    public Map<String, Object> endSelectTypeList(@RequestParam(name = "pageNum",required = false,defaultValue = "1") Integer pageNum,
+    public Map<String, Object> adminQueryTypeList(@RequestParam(name = "pageNum",required = false,defaultValue = "1") Integer pageNum,
                                                  @RequestParam(name = "pageSize",required = false,defaultValue = "20") Integer pageSize,
                                                  @RequestParam(name = "typeName",required = false,defaultValue = "") String typeName) {
         Map<String, Object> map = new HashMap();
         map.put("code", 200);
-        map.put("data", this.articleTypeService.selectTypeList(pageNum, pageSize, typeName));
+        map.put("data", this.articleTypeService.queryTypeList(pageNum, pageSize, typeName));
         map.put("total", this.articleTypeService.queryCount(typeName));
         return map;
     }
@@ -93,9 +93,9 @@ public class ArticleTypeController {
      * 后台管理 获取父节点分类列表
      */
     @GetMapping("parentList")
-    public Map<String, Object> selectParentTypeList() {
+    public Map<String, Object> queryParentTypeList() {
         Map<String, Object> map = new HashMap();
-        List<ArticleType> list = this.articleTypeService.selectParentTypeList();
+        List<ArticleType> list = this.articleTypeService.queryParentTypeList();
         map.put("code", 200);
         map.put("data", list);
         return map;

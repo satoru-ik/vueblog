@@ -32,12 +32,12 @@ public class ArticleController {
      * 并返回符合搜索条件的文章总数
      */
     @GetMapping("page")
-    public Map<String, Object> selectArticlePage(@RequestParam(name = "pageNum",required = false,defaultValue = "1") Integer pageNum,
+    public Map<String, Object> queryArticlePage(@RequestParam(name = "pageNum",required = false,defaultValue = "1") Integer pageNum,
                                                  @RequestParam(name = "pageSize",required = false,defaultValue = "5") Integer pageSize,
                                                  @RequestParam(name = "title",required = false,defaultValue = "") String title,
                                                  @RequestParam(name = "articleTypeId",required = false,defaultValue = "0") Integer articleTypeId) {
         Map<String, Object> map = new HashMap();
-        List<Article> articleList = articleService.selectArticlePage(pageNum, pageSize, title, articleTypeId);
+        List<Article> articleList = articleService.queryArticlePage(pageNum, pageSize, title, articleTypeId);
         Integer total = articleService.queryCount(title, articleTypeId);
         map.put("code", 200);
         map.put("data", articleList);
@@ -53,7 +53,7 @@ public class ArticleController {
     public Map<String, Object> articleView(@PathVariable Integer articleId) {
         Map<String, Object> map = new HashMap();
         articleService.addViewsById(articleId);
-        Article article = articleService.selectOneById(articleId);
+        Article article = articleService.queryOneById(articleId);
         if (article == null) {
             map.put("code", 404);
         } else {

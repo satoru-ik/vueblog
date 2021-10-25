@@ -19,7 +19,7 @@
     </resultMap>
 
     <!--默认评论树-->
-    <select id="defaultList" resultMap="commentTreeList" resultType="com.satoru.blog.model.CommentTree">
+    <select id="queryDefaultList" resultMap="commentTreeList" resultType="com.satoru.blog.model.CommentTree">
         select DISTINCT
         	ct.comment_tree_id, ct.comment_id, ct.content , ct.comment_tree_time,
         	comment_uid, (select nickname from `user` where `user`.uid = ct.comment_uid) as nickname,
@@ -31,7 +31,7 @@
 <!--    select count(1) from comment_tree where comment_id = ;-->
 
     <!--根据评论id和分页获取评论树-->
-    <select id="selectCommentTreePage" resultMap="commentTreeList" resultType="com.satoru.blog.model.CommentTree">
+    <select id="queryCommentTreePage" resultMap="commentTreeList" resultType="com.satoru.blog.model.CommentTree">
         select DISTINCT
         	ct.comment_tree_id, ct.comment_id, ct.content , ct.comment_tree_time,
         	comment_uid, (select nickname from `user` where `user`.uid = ct.comment_uid) as nickname,
